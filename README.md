@@ -38,6 +38,8 @@ Below are screenshots from the plugin admin pages (stored in the `screenshots/` 
 
 Note: If you will use the SILAJU headline suggestion feature, you should run (or point to) a SILAJU-compatible API server and provide its base URL in plugin settings.
 
+Related Project Here : https://github.com/wycoconut/silaju-project
+
 ## Installation
 
 1. Copy the `silaju-ai-plugin` folder into your site's `wp-content/plugins/` directory.
