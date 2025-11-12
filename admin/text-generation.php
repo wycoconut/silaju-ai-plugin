@@ -8,7 +8,6 @@
             <button id="gemini-ai-generate-text-btn" class="button button-primary button-large">Generate Article</button>
             <div id="gemini-ai-text-status" class="gemini-ai-status"></div>
             
-            <!-- NEW: Tag Selection Area -->
             <div class="tag-selection-box">
                 <h3>Tags</h3>
                 <div id="tag-list-container" class="tag-list">
@@ -29,6 +28,7 @@
             
             <div class="button-group">
                 <button id="gemini-ai-copy-text-btn" class="button button-secondary">Copy to Clipboard</button>
+                <button id="gemini-ai-get-tag-btn" class="button button-primary" style="background: #00a000;">Get Tags</button>
                 <button id="gemini-ai-suggest-headlines-btn" class="button button-primary" style="background: #e91e63;">Suggest Headlines</button>
                 <button id="gemini-ai-create-draft-btn" class="button button-primary" style="background: #ff9800;">Create Draft Post</button>
             </div>

@@ -64,6 +64,7 @@ jQuery(document).ready(function($) {
         alert('Content copied to clipboard!');
     });
 
+
     // Image Generation
     $('#gemini-ai-generate-image-btn').on('click', function() {
         console.log("Image Generation Button clicked. Attempting AJAX...");
@@ -79,9 +80,7 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        // --- ADDED DEBUG LOGGING ---
         console.log("DEBUG: Nonce for image generation is:", ajax_object.nonce_image_gen);
-        // --- END DEBUG LOGGING ---
 
         $status.removeClass('success error').addClass('loading').text('Generating ' + numImages + ' images... This may take up to 90 seconds.').show();
         $button.prop('disabled', true);
@@ -187,7 +186,7 @@ jQuery(document).ready(function($) {
         });
     });
 
-    // NEW: Load tags on page load
+    // Load tags on page load
     function loadTags() {
         $.ajax({
             url: ajax_object.ajax_url,
@@ -230,7 +229,7 @@ jQuery(document).ready(function($) {
         loadTags();
     }
 
-    // NEW: Suggest Headlines Button
+    // Suggest Headlines Button
     $('#gemini-ai-suggest-headlines-btn').on('click', function() {
         var $button = $(this);
         var $headlinesSection = $('#suggested-headlines-section');
@@ -278,7 +277,7 @@ jQuery(document).ready(function($) {
         });
     });
 
-    // NEW: Create Draft Post Button
+    // Create Draft Post Button
     $('#gemini-ai-create-draft-btn').on('click', function() {
         var $button = $(this);
         var content = $('#gemini-ai-generated-text').val();
@@ -331,4 +330,62 @@ jQuery(document).ready(function($) {
         });
     });
 
+
+    // Get Tag Button - Predict tags from generated content
+    $('#gemini-ai-get-tag-btn').on('click', function() {
+        var $button = $(this);
+        var content = $('#gemini-ai-generated-text').val();
+        
+        if (!content.trim()) {
+            alert('Please generate content first before predicting tags.');
+            return;
+        }
+        
+        $button.prop('disabled', true).text('Analyzing...');
+        
+        $.ajax({
+            url: ajax_object.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'silaju_predict_tags',
+                nonce: ajax_object.nonce_predict_tags,
+                content: content
+            },
+            success: function(response) {
+                $button.prop('disabled', false).text('Get Tag');
+                
+                if (response.success && response.data.predicted_tags) {
+                    // First, uncheck all checkboxes
+                    $('input[name="selected_tags[]"]').prop('checked', false);
+                    
+                    // Then check the predicted tags
+                    var checkedCount = 0;
+                    $.each(response.data.predicted_tags, function(index, tagSlug) {
+                        var $checkbox = $('input[name="selected_tags[]"][value="' + tagSlug + '"]');
+                        if ($checkbox.length) {
+                            $checkbox.prop('checked', true);
+                            checkedCount++;
+                        }
+                    });
+                    
+                    if (checkedCount > 0) {
+                        alert('Successfully predicted and selected ' + checkedCount + ' tag(s)!');
+                    } else {
+                        alert('Tags were predicted but could not be found in your WordPress tags. Please create tags matching: ' + response.data.predicted_tags.join(', '));
+                    }
+                    
+                    // Log raw response for debugging
+                    console.log('Prediction response:', response.data.raw_response);
+                } else {
+                    alert('Error: ' + (response.data || 'Failed to predict tags'));
+                }
+            },
+            error: function(xhr, status, error) {
+                $button.prop('disabled', false).text('Get Tag');
+                alert('AJAX Error: ' + error);
+                console.error('Prediction error:', xhr.responseText);
+            }
+        });
+    });
+        
 });

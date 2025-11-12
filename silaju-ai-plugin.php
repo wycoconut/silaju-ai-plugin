@@ -36,6 +36,7 @@ function silaju_ai_plugin_enqueue_admin_assets() {
         'nonce_get_tags' => wp_create_nonce( 'silaju_get_tags_nonce' ),
         'nonce_suggest_headlines' => wp_create_nonce( 'silaju_suggest_headlines_nonce' ),
         'nonce_create_draft' => wp_create_nonce( 'silaju_create_draft_nonce' ),
+        'nonce_predict_tags' => wp_create_nonce( 'silaju_predict_tags_nonce' ),
     ) );
 }
 add_action( 'admin_enqueue_scripts', 'silaju_ai_plugin_enqueue_admin_assets' );
@@ -388,6 +389,76 @@ function silaju_ai_plugin_handle_save_image() {
     wp_die();
 }
 add_action( 'wp_ajax_silaju_save_image', 'silaju_ai_plugin_handle_save_image' ); // Attach save function to AJAX hook
+
+/**
+ * NEW: Handle AJAX request to predict tags from content
+ */
+function silaju_ai_plugin_predict_tags() {
+    check_ajax_referer( 'silaju_predict_tags_nonce', 'nonce' );
+    
+    $content = sanitize_textarea_field( $_POST['content'] );
+    
+    if ( empty( $content ) ) {
+        wp_send_json_error( 'Please generate content first before predicting tags.' );
+    }
+    
+    // Get the API endpoint from settings
+    $api_endpoint = get_option( 'silaju_api_endpoint_url', 'http://localhost:8000' );
+    
+    // Build the URL
+    $url = $api_endpoint . '/predict';
+    
+    // Prepare the request body
+    $body = json_encode( array(
+        'description' => $content
+    ) );
+    
+    // Make the API request
+    $response = wp_remote_post( $url, array(
+        'timeout' => 30,
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ),
+        'body' => $body
+    ) );
+    
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( 'API Error: ' . $response->get_error_message() );
+    }
+    
+    $response_body = wp_remote_retrieve_body( $response );
+    $data = json_decode( $response_body, true );
+    
+    if ( ! $data ) {
+        wp_send_json_error( 'Invalid API response.' );
+    }
+    
+    // Map API response to tag names
+    $predicted_tags = array();
+    $label_mapping = array(
+        'is_creative' => 'creative',
+        'is_enthusiast' => 'enthusiast',
+        'is_business' => 'business',
+        'is_ecomm' => 'ecomm',
+        'is_policy' => 'policy'
+    );
+    
+    foreach ( $label_mapping as $api_label => $tag_slug ) {
+        if ( isset( $data[$api_label] ) && $data[$api_label] == 1 ) {
+            $predicted_tags[] = $tag_slug;
+        }
+    }
+    
+    if ( empty( $predicted_tags ) ) {
+        wp_send_json_error( 'No tags were predicted for this content.' );
+    }
+    
+    wp_send_json_success( array( 
+        'predicted_tags' => $predicted_tags,
+        'raw_response' => $data
+    ) );
+}
+add_action( 'wp_ajax_silaju_predict_tags', 'silaju_ai_plugin_predict_tags' );
 
 /**
  * Handle AJAX request to get all WordPress tags
