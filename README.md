@@ -28,6 +28,9 @@ Below are screenshots from the plugin admin pages (stored in the `screenshots/` 
 ![Image Generation Page](screenshots/silaju-ai-plugin-settings-image-generation.jpg)
 *Image Generation admin UI — prompt, number of images, generated gallery and save to Media Library.*
 
+![Content Creation WorkFlow](screenshots/silaju-ai-plugin-flow.jpg)
+*How a content creation workflow looks like when using this plugin*
+
 ---
 
 ## Requirements
