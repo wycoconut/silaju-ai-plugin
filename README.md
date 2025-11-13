@@ -33,6 +33,12 @@ Below are screenshots from the plugin admin pages (stored in the `screenshots/` 
 
 ---
 
+## Video (1 Hour Walkthrough)
+
+[![SILAJU - AI-Powered Content Classification and Generation System](https://img.youtube.com/vi/8MqnxaS48zA/0.jpg)](https://www.youtube.com/watch?v=8MqnxaS48zA)
+
+---
+
 ## Requirements
 
 - WordPress (recommended 5.8+; tested on recent WP versions)
