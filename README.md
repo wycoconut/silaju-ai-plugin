@@ -19,23 +19,27 @@ A WordPress plugin to generate AI-powered text and images using the Google Gemin
 
 Below are screenshots from the plugin admin pages (stored in the `screenshots/` folder):
 
-![Settings Page](screenshots/silaju-ai-plugin-settings.jpg)
+![Settings Page](screenshots/silaju-ai-plugin-settings.jpg)<BR>
 *Settings page — enter Google Gemini API Key and SILAJU endpoint.*
 
-![Text Generation Page](screenshots/silaju-ai-plugin-text-generation.jpg)
+![Text Generation Page](screenshots/silaju-ai-plugin-text-generation.jpg)<BR>
 *Text Generation admin UI — prompt, generated content, tags, headlines and create draft actions.*
 
-![Image Generation Page](screenshots/silaju-ai-plugin-settings-image-generation.jpg)
+![Image Generation Page](screenshots/silaju-ai-plugin-settings-image-generation.jpg)<BR>
 *Image Generation admin UI — prompt, number of images, generated gallery and save to Media Library.*
 
-![Content Creation WorkFlow](screenshots/silaju-ai-plugin-flow.jpg)
+![Content Creation WorkFlow](screenshots/silaju-ai-plugin-flow.jpg)<BR>
 *How a content creation workflow looks like when using this plugin*
 
 ---
 
-## Video (1 Hour Walkthrough)
+## Videos
 
-[![SILAJU - AI-Powered Content Classification and Generation System](https://img.youtube.com/vi/8MqnxaS48zA/0.jpg)](https://www.youtube.com/watch?v=8MqnxaS48zA)
+SILAJU - AI-Powered Content Classification and Generation System<BR><BR>
+[![SILAJU - AI-Powered Content Classification and Generation System](https://img.youtube.com/vi/k6Mw0hBv_8I/0.jpg)](https://www.youtube.com/watch?v=k6Mw0hBv_8I)
+
+[EXPLAINER VIDEO] SILAJU - AI-Powered Content Classification and Generation System<BR><BR>
+[![\[EXPLAINER\]SILAJU - AI-Powered Content Classification and Generation System](https://img.youtube.com/vi/8MqnxaS48zA/0.jpg)](https://www.youtube.com/watch?v=8MqnxaS48zA)
 
 ---
 
